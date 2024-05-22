@@ -1,7 +1,5 @@
 NAME:= philo
-CFLAGS:= -Wall -Werror -Wextra\
-# -fsanitize=thread \
-
+CFLAGS:= -Wall -Werror -Wextra -fsanitize=thread
 
 RED:=\033[0;31m
 GREEN:= \033[0;32m

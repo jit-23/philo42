@@ -42,6 +42,7 @@ void	init_default_values(t_dinner *dn)
 	dn->fork = s_malloc(sizeof(pthread_mutex_t) * dn->n_phil);
 	dn->start_dinner_time = get_time();
 	dn->dinner_ready = 0;
+	dn->stop_dinner = 0;
 	dn->philos_done_eating = 0;
 	init_mutex(dn);
 	init_mon(dn);

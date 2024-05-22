@@ -26,6 +26,17 @@ void	ft_usleep(long usec, t_dinner *dn)
 	long	start;
 
 	start = get_time();
-	while (dn->stop_dinner == 0 && (get_time() - start) < usec)
+	while ((get_value(&dn->dead, &dn->stop_dinner) == 0)
+		&& (get_time() - start) < usec)
 		usleep(500);
+}
+
+long	get_value_long(pthread_mutex_t *mutex, long *value)
+{
+	long	a;
+
+	pthread_mutex_lock(mutex);
+	a = *value;
+	pthread_mutex_unlock(mutex);
+	return (a);
 }

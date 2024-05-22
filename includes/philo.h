@@ -27,7 +27,8 @@
 typedef struct s_philo	t_philo;
 typedef struct s_dinner	t_dinner;
 
-struct s_philo{
+struct s_philo
+{
 	int				philo_id;
 	int				n_meals_eaten;
 	int				philo_full;
@@ -39,7 +40,8 @@ struct s_philo{
 	pthread_mutex_t	meal;
 };
 
-struct s_dinner{
+struct s_dinner
+{
 	int				n_phil;
 	long			time_to_die;
 	long			time_to_eat;
@@ -74,8 +76,7 @@ long			get_time(void);
 void			ft_usleep(long usec, t_dinner *dn);
 
 //utils.c
-void			set_value(pthread_mutex_t mutex, int *dest, int src);
-int				get_value(pthread_mutex_t mutex, int value);
+int				get_value(pthread_mutex_t *mutex, int *value);
 int				ft_atoi(char *nptr);
 void			*s_malloc(size_t bts);
 long long int	ft_atoll(char *nbr);
@@ -86,8 +87,8 @@ void			*routine(void *arg);
 void			create_threads(t_dinner *dn);
 void			init_table(t_dinner *dn, char **stats);
 
-int				get_value(pthread_mutex_t mutex, int value);
-void			set_value(pthread_mutex_t mutex, int *dest, int src);
+void			set_value(pthread_mutex_t *mutex, int *dest, int src);
+void			set_value_long(pthread_mutex_t *mutex, long *dest, long src);
 void			write_action(t_philo *ph, char *s);
 
 void			lone_philo(t_philo *ph);
@@ -96,8 +97,8 @@ void			think(t_philo *ph);
 void			eat(t_philo *ph);
 
 //dinnner.c
-long			get_value_long(pthread_mutex_t mutex, long *value);
+long			get_value_long(pthread_mutex_t *mutex, long *value);
 void			de_syncronize(t_philo *ph);
-void			set_dinner_start(pthread_mutex_t m, long *d, long s);
+void			set_dinner_start(pthread_mutex_t *m, long *d, long s);
 
 #endif

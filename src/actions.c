@@ -18,14 +18,12 @@ void	eat(t_philo *ph)
 	write_action(ph, "has taken a fork");
 	pthread_mutex_lock(&ph->dn->fork[ph->second_fork]);
 	write_action(ph, "has taken a fork");
-	pthread_mutex_lock(&ph->meal);
-	ph->last_meal_eaten = get_time();
-	pthread_mutex_unlock(&ph->meal);
+	set_value_long(&ph->meal, &ph->last_meal_eaten, get_time());
 	write_action(ph, "is eating");
 	ph->n_meals_eaten++;
 	ft_usleep(ph->dn->time_to_eat, ph->dn);
 	if (ph->n_meals_eaten == ph->dn->n_meals)
-		ph->philo_full = 1;
+		set_value(&ph->dn->read, &ph->philo_full, 1);
 	pthread_mutex_unlock(&ph->dn->fork[ph->second_fork]);
 	pthread_mutex_unlock(&ph->dn->fork[ph->first_fork]);
 }
@@ -36,7 +34,7 @@ void	think(t_philo *ph)
 	long	t_sleep;
 	long	t_think;
 
-	if (get_value(ph->dn->dead, ph->dn->stop_dinner) == 1)
+	if (get_value(&ph->dn->dead, &ph->dn->stop_dinner) == 1)
 		return ;
 	write_action(ph, "is thinking");
 	if (ph->dn->n_phil % 2 == 0)
@@ -74,16 +72,16 @@ void	*routine(void *arg)
 	t_philo	*ph;
 
 	ph = (t_philo *)arg;
-	while (get_value(ph->dn->read, ph->dn->dinner_ready) == 0)
+	while (get_value(&ph->dn->read, &ph->dn->dinner_ready) == 0)
 		;
-	set_dinner_start(ph->dn->read, &ph->last_meal_eaten, get_time());
+	set_dinner_start(&ph->meal, &ph->last_meal_eaten, get_time());
 	if (ph->dn->n_phil == 1)
 	{
 		lone_philo(ph);
 		return (0);
 	}
 	de_syncronize(ph);
-	while (get_value(ph->dn->dead, ph->dn->stop_dinner) != 1
+	while (get_value(&ph->dn->dead, &ph->dn->stop_dinner) != 1
 		&& ph->philo_full != 1)
 	{
 		eat(ph);

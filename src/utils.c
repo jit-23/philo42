@@ -67,29 +67,26 @@ int	ft_atoi(char *str)
 	return (sinal * result);
 }
 
-void	set_value(pthread_mutex_t mutex, int *dest, int src)
+void	set_value(pthread_mutex_t *mutex, int *dest, int src)
 {
-	pthread_mutex_lock(&mutex);
+	pthread_mutex_lock(mutex);
 	*dest = src;
-	pthread_mutex_unlock(&mutex);
+	pthread_mutex_unlock(mutex);
 }
 
-int	get_value(pthread_mutex_t mutex, int value)
+void	set_value_long(pthread_mutex_t *mutex, long *dest, long src)
+{
+	pthread_mutex_lock(mutex);
+	*dest = src;
+	pthread_mutex_unlock(mutex);
+}
+
+int	get_value(pthread_mutex_t *mutex, int *value)
 {
 	int	a;
 
-	pthread_mutex_lock(&mutex);
-	a = value;
-	pthread_mutex_unlock(&mutex);
-	return (a);
-}
-
-long	get_value_long(pthread_mutex_t mutex, long *value)
-{
-	long	a;
-
-	pthread_mutex_lock(&mutex);
+	pthread_mutex_lock(mutex);
 	a = *value;
-	pthread_mutex_unlock(&mutex);
+	pthread_mutex_unlock(mutex);
 	return (a);
 }
